@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-50: #f6f8ff;
+    --color-primary-100: #eef1ff;
+    --color-primary-200: #dde4ff;
+    --color-primary-300: #c4ceff;
+    --color-primary-400: #a3b2ff;
+    --color-primary-500: #7b8cff;
+    --color-primary-600: #5b6bf0;
+    --color-primary-700: #4554db;
+    --color-primary-800: #3845b0;
+    --color-primary-900: #303c8a;
+    --color-primary-950: #1e2360;
+  }
+
+  .dark {
+    --color-primary-50: #1e2360;
+    --color-primary-100: #303c8a;
+    --color-primary-200: #3845b0;
+    --color-primary-300: #4554db;
+    --color-primary-400: #5b6bf0;
+    --color-primary-500: #7b8cff;
+    --color-primary-600: #a3b2ff;
+    --color-primary-700: #c4ceff;
+    --color-primary-800: #dde4ff;
+    --color-primary-900: #eef1ff;
+    --color-primary-950: #f6f8ff;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/60 dark:border-slate-800 shadow-soft transition-all duration-200 hover:shadow-soft-lg;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800;
+  }
+  .btn-secondary {
+    @apply btn bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-150;
+  }
+  .sidebar-link.active {
+    @apply bg-primary-50 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+}
