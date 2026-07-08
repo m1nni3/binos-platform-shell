@@ -26,21 +26,28 @@ export function CalendarView() {
           />
         </Card>
 
-        <Card title="Month View" right={<span className="text-xs text-slate-500">July 2026</span>}>
-          <div className="grid grid-cols-7 gap-2 text-center text-xs text-slate-500">
-            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
-              <div key={d} className="py-1">{d}</div>
+        <Card title="Month View" right={<span className="text-xs text-slate-500 dark:text-slate-400">July 2026</span>}>
+          <div className="grid grid-cols-7 gap-2">
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
+              <div key={day} className="text-center text-xs font-semibold text-slate-600 dark:text-slate-400 p-2">
+                {day}
+              </div>
             ))}
-            {Array.from({ length: 31 }).map((_, i) => {
-              const day = i + 1;
-              const hasEvent = [9, 15, 30].includes(day);
+            {Array.from({ length: 35 }).map((_, i) => {
+              const date = i - 2;
+              const isCurrentMonth = date >= 1 && date <= 31;
               return (
-                <div
-                  key={day}
-                  className={cn('py-2 rounded-xl text-sm', hasEvent ? 'bg-primary-600 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200')}
+                <button
+                  key={i}
+                  className={cn(
+                    'aspect-square rounded-lg text-xs font-medium transition-colors',
+                    isCurrentMonth
+                      ? 'bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-primary-50 dark:hover:bg-primary-950'
+                      : 'text-slate-400 dark:text-slate-600'
+                  )}
                 >
-                  {day}
-                </div>
+                  {isCurrentMonth ? date : ''}
+                </button>
               );
             })}
           </div>

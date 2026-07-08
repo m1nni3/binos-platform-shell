@@ -35,22 +35,22 @@ export function PropertyCentreView() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search properties..."
-              className="pl-9 pr-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-slate-200"
+              className="pl-9 pr-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500"
             />
           </div>
-          <button className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500">
+          <button className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
             <SlidersHorizontal className="w-4 h-4" />
           </button>
           <div className="flex rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
             <button
               onClick={() => setGrid(true)}
-              className={grid ? 'bg-slate-100 dark:bg-slate-800 p-2' : 'p-2 text-slate-400'}
+              className={grid ? 'bg-slate-100 dark:bg-slate-800 p-2' : 'p-2 text-slate-400 dark:text-slate-500'}
             >
               <Grid3x3 className="w-4 h-4" />
             </button>
             <button
               onClick={() => setGrid(false)}
-              className={grid ? 'p-2 text-slate-400' : 'bg-slate-100 dark:bg-slate-800 p-2'}
+              className={grid ? 'p-2 text-slate-400 dark:text-slate-500' : 'bg-slate-100 dark:bg-slate-800 p-2'}
             >
               <List className="w-4 h-4" />
             </button>
@@ -71,7 +71,7 @@ export function PropertyCentreView() {
             <button
               key={p.id}
               onClick={() => setSelected(p.id)}
-              className="card text-left hover:-translate-y-0.5 transition-transform"
+              className="panel text-left hover:-translate-y-0.5 transition-transform hover:shadow-primary dark:hover:shadow-primary-dark"
             >
               <div className="p-5">
                 <div className="flex items-center justify-between">
@@ -85,16 +85,16 @@ export function PropertyCentreView() {
                   <Badge variant={p.status === 'Active' ? 'success' : 'warning'}>{p.status}</Badge>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3 text-center">
-                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3">
-                    <div className="text-xs text-slate-500">Units</div>
+                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3 border border-slate-200 dark:border-slate-700">
+                    <div className="text-xs text-slate-500 dark:text-slate-400">Units</div>
                     <div className="font-semibold text-slate-900 dark:text-slate-100">{p.units}</div>
                   </div>
-                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3">
-                    <div className="text-xs text-slate-500">Occupancy</div>
+                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3 border border-slate-200 dark:border-slate-700">
+                    <div className="text-xs text-slate-500 dark:text-slate-400">Occupancy</div>
                     <div className="font-semibold text-slate-900 dark:text-slate-100">{p.occupancy}%</div>
                   </div>
-                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3">
-                    <div className="text-xs text-slate-500">Province</div>
+                  <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3 border border-slate-200 dark:border-slate-700">
+                    <div className="text-xs text-slate-500 dark:text-slate-400">Province</div>
                     <div className="font-semibold text-slate-900 dark:text-slate-100 truncate">{p.province}</div>
                   </div>
                 </div>
@@ -123,16 +123,16 @@ export function PropertyCentreView() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-xs text-slate-500">Name</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">Name</div>
                 <div className="font-medium text-slate-900 dark:text-slate-100">{properties.find((p) => p.id === selected)?.name}</div>
               </div>
               <div>
-                <div className="text-xs text-slate-500">Status</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">Status</div>
                 <div className="font-medium text-slate-900 dark:text-slate-100">{properties.find((p) => p.id === selected)?.status}</div>
               </div>
             </div>
             <div>
-              <div className="text-xs text-slate-500 mb-2">Description</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">Description</div>
               <p className="text-sm text-slate-700 dark:text-slate-300">This property includes multiple units with standard amenities, secure parking, and 24-hour access control.</p>
             </div>
           </div>

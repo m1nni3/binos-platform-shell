@@ -26,21 +26,21 @@ export function FinancialCentreView() {
           />
         </Card>
 
-        <Card title="Outstanding Amounts" right={<span className="text-xs text-slate-500">Summary</span>}>
+        <Card title="Outstanding Amounts" right={<span className="text-xs text-slate-500 dark:text-slate-400">Summary</span>}>
           <div className="space-y-3">
             {[
-              { title: 'Outstanding Rentals', amount: 'R28,500', trend: '-3%' },
-              { title: 'Outstanding Levies', amount: 'R14,200', trend: '+1%' },
-              { title: 'Outstanding Municipal', amount: 'R6,700', trend: '-2%' },
+              { title: 'Outstanding Rentals', amount: 'R28,500', trend: '-3%', accent: 'rose' as const },
+              { title: 'Outstanding Levies', amount: 'R14,200', trend: '+1%', accent: 'amber' as const },
+              { title: 'Outstanding Municipal', amount: 'R6,700', trend: '-2%', accent: 'primary' as const },
             ].map((item) => (
-              <div key={item.title} className="flex items-center justify-between p-4 rounded-2xl border border-slate-200/60 dark:border-slate-800">
+              <div key={item.title} className="flex items-center justify-between p-4 rounded-2xl border border-slate-200 dark:border-slate-800 accent-left-primary hover:shadow-primary dark:hover:shadow-primary-dark transition-all">
                 <div>
                   <div className="text-sm font-medium text-slate-900 dark:text-slate-100">{item.title}</div>
-                  <div className="text-xs text-slate-500">Last 30 days</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">Last 30 days</div>
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">{item.amount}</div>
-                  <div className="text-xs text-slate-500">{item.trend}</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">{item.trend}</div>
                 </div>
               </div>
             ))}

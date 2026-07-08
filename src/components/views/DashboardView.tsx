@@ -50,7 +50,7 @@ export function DashboardView() {
               <AreaChart data={revenue}>
                 <defs>
                   <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#5b6bf0" stopOpacity={0.2} />
+                    <stop offset="5%" stopColor="#5b6bf0" stopOpacity={0.25} />
                     <stop offset="95%" stopColor="#5b6bf0" stopOpacity={0} />
                   </linearGradient>
                 </defs>
@@ -67,7 +67,7 @@ export function DashboardView() {
           <div className="space-y-4">
             {recentActivity.map((item) => (
               <div key={item.id} className="flex items-start gap-3">
-                <div className="mt-1 h-2 w-2 rounded-full bg-primary-500" />
+                <div className="mt-1 h-2 w-2 rounded-full bg-primary-500 shadow-primary dark:shadow-primary-dark" />
                 <div>
                   <p className="text-sm text-slate-800 dark:text-slate-200">{item.text}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{item.time}</p>
@@ -93,25 +93,25 @@ export function DashboardView() {
               { tenant: 'Johan van der Berg', unit: 'Rosewood B1', end: '2026-09-30', status: 'On Track' },
             ]}
             empty={
-              <div className="px-4 py-8 text-center text-sm text-slate-500">No leases expiring soon.</div>
+              <div className="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">No leases expiring soon.</div>
             }
           />
         </Card>
 
-        <Card title="Quick Actions" right={<span className="text-xs text-slate-500">Common</span>}>
+        <Card title="Quick Actions" right={<span className="text-xs text-slate-500 dark:text-slate-400">Common</span>}>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { label: 'New Lease', icon: FileText },
-              { label: 'Add Property', icon: Home },
-              { label: 'Schedule Inspection', icon: CalendarDays },
-              { label: 'Raise Work Order', icon: Wrench },
+              { label: 'New Lease', icon: FileText, accent: 'primary' as const },
+              { label: 'Add Property', icon: Home, accent: 'emerald' as const },
+              { label: 'Schedule Inspection', icon: CalendarDays, accent: 'amber' as const },
+              { label: 'Raise Work Order', icon: Wrench, accent: 'rose' as const },
             ].map((action) => (
               <button
                 key={action.label}
-                className="flex items-center gap-2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm"
+                className="flex items-center gap-2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-primary dark:hover:shadow-primary-dark transition-all text-sm"
               >
-                <action.icon className="w-4 h-4 text-primary-600" />
-                <span>{action.label}</span>
+                <action.icon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                <span className="text-slate-900 dark:text-slate-100">{action.label}</span>
               </button>
             ))}
           </div>
