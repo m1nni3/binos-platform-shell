@@ -37,7 +37,7 @@ export function DashboardView() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard title="Portfolio Revenue" value="R450,000" change="+2.4% vs last month" icon={DollarSign} accent="emerald" />
+        <StatCard title="Portfolio Revenue" value="R450,000" change="+2.4% vs last month" icon={DollarSign} accent="properties" />
         <StatCard title="Properties" value="5" change="92% occupancy" icon={Home} accent="properties" />
         <StatCard title="Open Maintenance" value="12" change="3 urgent" icon={Wrench} accent="maintenance" />
         <StatCard title="Outstanding Levies" value="R24,500" change="Across 6 units" icon={AlertTriangle} accent="alerts" />
