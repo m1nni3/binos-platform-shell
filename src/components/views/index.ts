@@ -1,0 +1,15 @@
+export { AuditCentreView } from './AuditCentreView';
+export { CalendarView } from './CalendarView';
+export { ContactsView } from './ContactsView';
+export { DashboardView } from './DashboardView';
+export { DocumentsView } from './DocumentsView';
+export { FinancialCentreView } from './FinancialCentreView';
+export { LeaseManagerView } from './LeaseManagerView';
+export { MaintenanceCentreView } from './MaintenanceCentreView';
+export { NotificationsView } from './NotificationsView';
+export { PropertyCentreView } from './PropertyCentreView';
+export { ReportsView } from './ReportsView';
+export { SettingsView } from './SettingsView';
+export { TaskCentreView } from './TaskCentreView';
+export { TenantCentreView } from './TenantCentreView';
+export { UnitManagerView } from './UnitManagerView';
