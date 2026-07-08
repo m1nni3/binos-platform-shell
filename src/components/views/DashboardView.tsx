@@ -32,15 +32,15 @@ export function DashboardView() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Dashboard</h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">Portfolio overview and quick actions</p>
+        <h1 className="text-2xl font-bold text-neutral-black dark:text-white">Dashboard</h1>
+        <p className="text-sm text-neutral-slate dark:text-neutral-gray">Portfolio overview and quick actions</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <StatCard title="Portfolio Revenue" value="R450,000" change="+2.4% vs last month" icon={DollarSign} accent="emerald" />
-        <StatCard title="Properties" value="5" change="92% occupancy" icon={Home} accent="primary" />
-        <StatCard title="Open Maintenance" value="12" change="3 urgent" icon={Wrench} accent="amber" />
-        <StatCard title="Outstanding Levies" value="R24,500" change="Across 6 units" icon={AlertTriangle} accent="rose" />
+        <StatCard title="Properties" value="5" change="92% occupancy" icon={Home} accent="properties" />
+        <StatCard title="Open Maintenance" value="12" change="3 urgent" icon={Wrench} accent="maintenance" />
+        <StatCard title="Outstanding Levies" value="R24,500" change="Across 6 units" icon={AlertTriangle} accent="alerts" />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -50,14 +50,14 @@ export function DashboardView() {
               <AreaChart data={revenue}>
                 <defs>
                   <linearGradient id="rev" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#5b6bf0" stopOpacity={0.25} />
-                    <stop offset="95%" stopColor="#5b6bf0" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#1E88FF" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#1E88FF" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#94a3b8" />
-                <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" tickFormatter={(v) => `${v / 1000}k`} />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#C7CBD4" />
+                <YAxis tick={{ fontSize: 12 }} stroke="#C7CBD4" tickFormatter={(v) => `${v / 1000}k`} />
                 <Tooltip />
-                <Area type="monotone" dataKey="value" stroke="#5b6bf0" fillOpacity={1} fill="url(#rev)" />
+                <Area type="monotone" dataKey="value" stroke="#1E88FF" fillOpacity={1} fill="url(#rev)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -67,10 +67,10 @@ export function DashboardView() {
           <div className="space-y-4">
             {recentActivity.map((item) => (
               <div key={item.id} className="flex items-start gap-3">
-                <div className="mt-1 h-2 w-2 rounded-full bg-primary-500 shadow-primary dark:shadow-primary-dark" />
+                <div className="mt-1 h-2 w-2 rounded-full bg-brand-blue shadow-primary" />
                 <div>
-                  <p className="text-sm text-slate-800 dark:text-slate-200">{item.text}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{item.time}</p>
+                  <p className="text-sm text-neutral-black dark:text-white">{item.text}</p>
+                  <p className="text-xs text-neutral-slate dark:text-neutral-gray">{item.time}</p>
                 </div>
               </div>
             ))}
@@ -93,25 +93,25 @@ export function DashboardView() {
               { tenant: 'Johan van der Berg', unit: 'Rosewood B1', end: '2026-09-30', status: 'On Track' },
             ]}
             empty={
-              <div className="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">No leases expiring soon.</div>
+              <div className="px-4 py-8 text-center text-sm text-neutral-slate dark:text-neutral-gray">No leases expiring soon.</div>
             }
           />
         </Card>
 
-        <Card title="Quick Actions" right={<span className="text-xs text-slate-500 dark:text-slate-400">Common</span>}>
+        <Card title="Quick Actions" right={<span className="text-xs text-neutral-slate dark:text-neutral-gray">Common</span>}>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { label: 'New Lease', icon: FileText, accent: 'primary' as const },
-              { label: 'Add Property', icon: Home, accent: 'emerald' as const },
-              { label: 'Schedule Inspection', icon: CalendarDays, accent: 'amber' as const },
-              { label: 'Raise Work Order', icon: Wrench, accent: 'rose' as const },
+              { label: 'New Lease', icon: FileText, accent: 'brand-blue' as const },
+              { label: 'Add Property', icon: Home, accent: 'brand-green' as const },
+              { label: 'Schedule Inspection', icon: CalendarDays, accent: 'brand-orange' as const },
+              { label: 'Raise Work Order', icon: Wrench, accent: 'brand-pink' as const },
             ].map((action) => (
               <button
                 key={action.label}
-                className="flex items-center gap-2 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-primary dark:hover:shadow-primary-dark transition-all text-sm"
+                className="flex items-center gap-2 p-3 rounded-lg border border-neutral-light hover:border-brand-blue hover:shadow-primary transition-all text-sm"
               >
-                <action.icon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
-                <span className="text-slate-900 dark:text-slate-100">{action.label}</span>
+                <action.icon className="w-4 h-4 text-brand-blue" />
+                <span className="text-neutral-black dark:text-white">{action.label}</span>
               </button>
             ))}
           </div>
