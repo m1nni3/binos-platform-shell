@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import { Card } from '../ui';
 import { Badge } from '../ui/Badge';
-import { DataTable } from '../ui/DataTable';
+import { InfoCard } from '../ui/InfoCard';
 import { Search } from 'lucide-react';
-import { tenants } from '../../data/mockData';
+import { tenants, properties } from '../../data/mockData';
 
 export function TenantCentreView() {
   const [query, setQuery] = useState('');
-  const filtered = tenants.filter((t) => [t.name, t.email, t.phone].join(' ').toLowerCase().includes(query.toLowerCase()));
+  const propertyName = (id?: string) => properties.find((p) => p.id === id)?.name ?? '—';
+
+  const filtered = tenants.filter((t) =>
+    [t.name, t.email, t.phone, propertyName(t.propertyId)].join(' ').toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -26,19 +30,27 @@ export function TenantCentreView() {
         </div>
       </div>
 
-      <Card>
-        <DataTable
-          caption="Tenants"
-          columns={[
-            { key: 'name', label: 'Tenant' },
-            { key: 'email', label: 'Email' },
-            { key: 'phone', label: 'Phone' },
-            { key: 'balance', label: 'Balance', render: (r) => r.balance ? `R${r.balance.toLocaleString()}` : '—' },
-            { key: 'name', label: 'Status', render: () => <Badge variant="success">Active</Badge> },
-          ]}
-          rows={filtered}
-        />
-      </Card>
+      {filtered.length === 0 ? (
+        <p className="text-sm text-slate-500 dark:text-slate-400">No tenants match your search.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          {filtered.map((t) => (
+            <InfoCard
+              key={t.id}
+              icon="👤"
+              title={t.name}
+              badge={<Badge variant="success">Active</Badge>}
+              fields={[
+                { label: 'Property', value: propertyName(t.propertyId) },
+                { label: 'Unit', value: t.unitId?.toUpperCase() ?? '—' },
+                { label: 'Email', value: t.email },
+                { label: 'Phone', value: t.phone },
+                { label: 'Balance', value: t.balance ? `R${t.balance.toLocaleString()}` : '—' },
+              ]}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

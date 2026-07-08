@@ -1,12 +1,23 @@
-import { Card } from '../ui';
 import { Badge } from '../ui/Badge';
-import { DataTable } from '../ui/DataTable';
-import { maintenanceJobs } from '../../data/mockData';
+import { InfoCard } from '../ui/InfoCard';
+import { maintenanceJobs, units, properties } from '../../data/mockData';
 
 const priorityVariant: Record<string, 'danger' | 'warning' | 'success'> = {
   High: 'danger',
   Medium: 'warning',
   Low: 'success',
+};
+
+const statusVariant: Record<string, 'warning' | 'success' | 'info'> = {
+  Open: 'warning',
+  Completed: 'success',
+  Scheduled: 'info',
+};
+
+const unitLabel = (pid?: string, uid?: string) => {
+  const u = units.find((x) => x.id === uid);
+  const p = properties.find((x) => x.id === pid);
+  return [p?.name, u ? `Unit ${u.unit}` : null].filter(Boolean).join(' • ') || '—';
 };
 
 export function MaintenanceCentreView() {
@@ -17,20 +28,22 @@ export function MaintenanceCentreView() {
         <p className="text-sm text-slate-500 dark:text-slate-400">Work orders, contractors, quotes, and invoices</p>
       </div>
 
-      <Card>
-        <DataTable
-          caption="Jobs"
-          columns={[
-            { key: 'id', label: 'ID' },
-            { key: 'title', label: 'Title' },
-            { key: 'priority', label: 'Priority', render: (r) => <Badge variant={priorityVariant[r.priority] || 'default'}>{r.priority}</Badge> },
-            { key: 'status', label: 'Status', render: (r) => <Badge variant={r.status === 'Open' ? 'warning' : r.status === 'Completed' ? 'success' : 'info'}>{r.status}</Badge> },
-            { key: 'contractor', label: 'Contractor' },
-            { key: 'due', label: 'Due' },
-          ]}
-          rows={maintenanceJobs}
-        />
-      </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        {maintenanceJobs.map((job) => (
+          <InfoCard
+            key={job.id}
+            icon="🔧"
+            title={job.title}
+            badge={<Badge variant={statusVariant[job.status] || 'info'}>{job.status}</Badge>}
+            fields={[
+              { label: 'Location', value: unitLabel(job.propertyId, job.unitId) },
+              { label: 'Priority', value: <Badge variant={priorityVariant[job.priority] || 'default'}>{job.priority}</Badge> },
+              { label: 'Contractor', value: job.contractor },
+              { label: 'Due', value: job.due },
+            ]}
+          />
+        ))}
+      </div>
     </div>
   );
 }

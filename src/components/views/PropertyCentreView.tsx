@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Card, StatCard } from '../ui';
 import { Badge } from '../ui/Badge';
-import { DataTable } from '../ui/DataTable';
 import { Modal } from '../ui/Modal';
-import { Search, MapPin, SlidersHorizontal, Grid3x3, List } from 'lucide-react';
+import { Search, MapPin, SlidersHorizontal } from 'lucide-react';
 import { properties } from '../../data/mockData';
 
 const propertyIcons: Record<string, string> = {
@@ -14,7 +13,6 @@ const propertyIcons: Record<string, string> = {
 
 export function PropertyCentreView() {
   const [query, setQuery] = useState('');
-  const [grid, setGrid] = useState(true);
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = properties.filter((p) =>
@@ -41,20 +39,6 @@ export function PropertyCentreView() {
           <button className="p-2 rounded-xl border border-neutral-light text-neutral-slate hover:bg-surface-50 dark:hover:bg-neutral-800 transition-colors">
             <SlidersHorizontal className="w-4 h-4" />
           </button>
-          <div className="flex rounded-xl border border-neutral-light overflow-hidden">
-            <button
-              onClick={() => setGrid(true)}
-              className={grid ? 'bg-surface-50 dark:bg-neutral-800 p-2' : 'p-2 text-neutral-gray'}
-            >
-              <Grid3x3 className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setGrid(false)}
-              className={grid ? 'p-2 text-neutral-gray' : 'bg-surface-50 dark:bg-neutral-800 p-2'}
-            >
-              <List className="w-4 h-4" />
-            </button>
-          </div>
         </div>
       </div>
 
@@ -65,10 +49,9 @@ export function PropertyCentreView() {
         <StatCard title="Avg Occupancy" value="87%" icon={MapPin} accent="primary" />
       </div>
 
-      {grid ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filtered.map((p) => (
-            <button
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        {filtered.map((p) => (
+          <button
               key={p.id}
               onClick={() => setSelected(p.id)}
               className="panel text-left hover:-translate-y-0.5 transition-transform hover:shadow-primary dark:hover:shadow-purple-dark"
@@ -102,21 +85,6 @@ export function PropertyCentreView() {
             </button>
           ))}
         </div>
-      ) : (
-        <Card>
-          <DataTable
-            columns={[
-              { key: 'name', label: 'Property' },
-              { key: 'type', label: 'Type' },
-              { key: 'units', label: 'Units' },
-              { key: 'occupancy', label: 'Occupancy', render: (r) => `${r.occupancy}%` },
-              { key: 'city', label: 'City' },
-              { key: 'status', label: 'Status', render: (r) => <Badge variant={r.status === 'Active' ? 'success' : 'warning'}>{r.status}</Badge> },
-            ]}
-            rows={filtered}
-          />
-        </Card>
-      )}
 
       <Modal open={!!selected} onClose={() => setSelected(null)} title="Property Details">
         {selected && (

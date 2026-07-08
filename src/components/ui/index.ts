@@ -1,3 +1,4 @@
+export { InfoCard } from './InfoCard';
 export { Badge } from './Badge';
 export { Card } from './Card';
 export { DataTable } from './DataTable';
