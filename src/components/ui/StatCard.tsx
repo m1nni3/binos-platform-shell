@@ -12,7 +12,7 @@ export function StatCard({
   value: string;
   change?: string;
   icon: LucideIcon;
-  accent?: 'primary' | 'properties' | 'finance' | 'maintenance' | 'communications' | 'analytics' | 'contacts' | 'documents' | 'tasks' | 'alerts';
+  accent?: 'primary' | 'properties' | 'finance' | 'maintenance' | 'communications' | 'analytics' | 'contacts' | 'documents' | 'tasks' | 'alerts' | 'emerald' | 'amber' | 'rose';
 }) {
   const accentColors: Record<string, string> = {
     primary: 'bg-primary-50 text-brand-blue dark:bg-primary-950/40 dark:text-brand-blue',
@@ -25,6 +25,9 @@ export function StatCard({
     documents: 'bg-card-documents text-accent-indigo dark:bg-indigo-950/40 dark:text-accent-indigo',
     tasks: 'bg-card-tasks text-accent-yellow dark:bg-yellow-950/40 dark:text-accent-yellow',
     alerts: 'bg-card-alerts text-accent-coral dark:bg-red-950/40 dark:text-accent-coral',
+    emerald: 'bg-card-properties text-brand-green dark:bg-green-950/40 dark:text-brand-green',
+    amber: 'bg-card-maintenance text-brand-orange dark:bg-orange-950/40 dark:text-brand-orange',
+    rose: 'bg-card-alerts text-accent-coral dark:bg-red-950/40 dark:text-accent-coral',
   };
 
   return (
