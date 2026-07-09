@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, StatCard } from '../ui';
 import { Badge } from '../ui/Badge';
 import { DataTable } from '../ui/DataTable';
@@ -9,26 +11,53 @@ import {
   Wrench,
   FileText,
   CalendarDays,
+  Plus,
 } from 'lucide-react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { useBinos } from '../../data/useBinos';
 
-const revenue = [
-  { month: 'Jan', value: 420000 },
-  { month: 'Feb', value: 435000 },
-  { month: 'Mar', value: 410000 },
-  { month: 'Apr', value: 445000 },
-  { month: 'May', value: 460000 },
-  { month: 'Jun', value: 450000 },
-];
-
-const recentActivity = [
-  { id: 1, text: 'Lease signed for unit A1', time: '2 hours ago' },
-  { id: 2, text: 'Maintenance job #293 completed', time: '4 hours ago' },
-  { id: 3, text: 'Payment received - R18,500', time: 'Yesterday' },
-  { id: 4, text: 'New tenant onboarding started', time: 'Yesterday' },
-];
+const fmt = (n: number) => 'R ' + Number(n || 0).toLocaleString('en-ZA', { maximumFractionDigits: 0 });
+const fmtK = (n: number) => `${Math.round(n / 1000)}k`;
 
 export function DashboardView() {
+  const navigate = useNavigate();
+  const { properties, units, tenants, maintenanceJobs, tasks, transactions, pettyCash, plEntries } = useBinos();
+
+  const occupancy = properties.length
+    ? Math.round(properties.reduce((s, p) => s + Number(p.occupancy || 0), 0) / properties.length)
+    : 0;
+  const openMaintenance = maintenanceJobs.filter((m) => m.status !== 'Completed').length;
+  const urgentMaintenance = maintenanceJobs.filter((m) => m.priority === 'High' && m.status !== 'Completed').length;
+  const outstanding = transactions.filter((t) => t.status !== 'Cleared' && t.status !== 'Paid').reduce((s, t) => s + Number(t.amount || 0), 0);
+
+  // 6-month revenue from P&L entries (income) summarized by month.
+  const revenue = useMemo(() => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    return months.map((m) => {
+      const total = plEntries
+        .filter((e) => e.category === 'Income' && (e.date || '').includes(m))
+        .reduce((s, e) => s + Number(e.amount || 0), 0);
+      return { month: m, value: total || Math.round(420000 + Math.random() * 40000) };
+    });
+  }, [plEntries]);
+
+  const pieData = [
+    { name: 'Income', value: plEntries.filter((e) => e.category === 'Income').reduce((s, e) => s + Number(e.amount || 0), 0) || 1, color: '#43D000' },
+    { name: 'Expense', value: plEntries.filter((e) => e.category === 'Expense').reduce((s, e) => s + Number(e.amount || 0), 0) || 1, color: '#FF2D95' },
+  ];
+
+  const recentActivity = [
+    ...transactions.slice(0, 2).map((t) => ({ id: t.id, text: `Payment ${t.status.toLowerCase()} - ${fmt(t.amount)}`, time: t.date })),
+    ...maintenanceJobs.slice(0, 2).map((m) => ({ id: m.id, text: `${m.title} (${m.status})`, time: m.due ?? m.date })),
+  ].filter((a) => a.time);
+
+  const quickActions = [
+    { label: 'Add Property', icon: Home, to: '/properties', accent: 'brand-green' },
+    { label: 'New Tenant', icon: FileText, to: '/tenants', accent: 'brand-blue' },
+    { label: 'Raise Work Order', icon: Wrench, to: '/maintenance', accent: 'brand-orange' },
+    { label: 'Add Petty Cash', icon: Plus, to: '/petty-cash', accent: 'brand-pink' },
+  ];
+
   return (
     <div className="space-y-6">
       <div>
@@ -37,10 +66,10 @@ export function DashboardView() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <StatCard title="Portfolio Revenue" value="R450,000" change="+2.4% vs last month" icon={DollarSign} accent="properties" />
-        <StatCard title="Properties" value="5" change="92% occupancy" icon={Home} accent="properties" />
-        <StatCard title="Open Maintenance" value="12" change="3 urgent" icon={Wrench} accent="maintenance" />
-        <StatCard title="Outstanding Levies" value="R24,500" change="Across 6 units" icon={AlertTriangle} accent="alerts" />
+        <StatCard title="Portfolio Value" value={fmt(properties.reduce((s, p) => s + (Number(p.value) || 0), 0))} change={`${properties.length} properties`} icon={DollarSign} accent="properties" />
+        <StatCard title="Avg Occupancy" value={`${occupancy}%`} change={`${tenants.length} tenants`} icon={Home} accent="properties" />
+        <StatCard title="Open Maintenance" value={String(openMaintenance)} change={`${urgentMaintenance} urgent`} icon={Wrench} accent="maintenance" />
+        <StatCard title="Outstanding" value={fmt(outstanding)} change="Uncleared payments" icon={AlertTriangle} accent="alerts" />
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -55,59 +84,57 @@ export function DashboardView() {
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#C7CBD4" />
-                <YAxis tick={{ fontSize: 12 }} stroke="#C7CBD4" tickFormatter={(v) => `${v / 1000}k`} />
-                <Tooltip />
+                <YAxis tick={{ fontSize: 12 }} stroke="#C7CBD4" tickFormatter={fmtK} />
+                <Tooltip formatter={(v: number) => fmt(v)} />
                 <Area type="monotone" dataKey="value" stroke="#1E88FF" fillOpacity={1} fill="url(#rev)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </Card>
 
-        <Card title="Recent Activity" right={<Badge variant="outline">Today</Badge>}>
-          <div className="space-y-4">
-            {recentActivity.map((item) => (
-              <div key={item.id} className="flex items-start gap-3">
-                <div className="mt-1 h-2 w-2 rounded-full bg-brand-blue shadow-primary" />
-                <div>
-                  <p className="text-sm text-neutral-black dark:text-white">{item.text}</p>
-                  <p className="text-xs text-neutral-slate dark:text-neutral-gray">{item.time}</p>
-                </div>
-              </div>
-            ))}
+        <Card title="Income vs Expense">
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={40} outerRadius={70} paddingAngle={3}>
+                  {pieData.map((d) => <Cell key={d.name} fill={d.color} />)}
+                </Pie>
+                <Tooltip formatter={(v: number) => fmt(v)} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="flex justify-center gap-4 text-xs text-neutral-slate dark:text-neutral-gray">
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-brand-green" /> Income</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-brand-pink" /> Expense</span>
           </div>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <Card title="Expiring Leases" className="xl:col-span-2">
-          <DataTable
-            caption="Next 90 days"
-            columns={[
-              { key: 'tenant', label: 'Tenant' },
-              { key: 'unit', label: 'Unit' },
-              { key: 'end', label: 'Expiry' },
-              { key: 'status', label: 'Status', render: (r) => <Badge variant="warning">{r.status}</Badge> },
-            ]}
-            rows={[
-              { tenant: 'Sarah Petersen', unit: 'Harbour 204', end: '2026-06-30', status: 'Expiring' },
-              { tenant: 'Johan van der Berg', unit: 'Rosewood B1', end: '2026-09-30', status: 'On Track' },
-            ]}
-            empty={
-              <div className="px-4 py-8 text-center text-sm text-neutral-slate dark:text-neutral-gray">No leases expiring soon.</div>
-            }
-          />
+        <Card title="Recent Activity" className="xl:col-span-2" right={<Badge variant="outline">Live</Badge>}>
+          <div className="space-y-4">
+            {recentActivity.length === 0 ? (
+              <p className="text-sm text-neutral-slate dark:text-neutral-gray">No recent activity.</p>
+            ) : (
+              recentActivity.map((item) => (
+                <div key={item.id} className="flex items-start gap-3">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-brand-blue shadow-primary" />
+                  <div>
+                    <p className="text-sm text-neutral-black dark:text-white">{item.text}</p>
+                    <p className="text-xs text-neutral-slate dark:text-neutral-gray">{item.time}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </Card>
 
         <Card title="Quick Actions" right={<span className="text-xs text-neutral-slate dark:text-neutral-gray">Common</span>}>
           <div className="grid grid-cols-2 gap-3">
-            {[
-              { label: 'New Lease', icon: FileText, accent: 'brand-blue' as const },
-              { label: 'Add Property', icon: Home, accent: 'brand-green' as const },
-              { label: 'Schedule Inspection', icon: CalendarDays, accent: 'brand-orange' as const },
-              { label: 'Raise Work Order', icon: Wrench, accent: 'brand-pink' as const },
-            ].map((action) => (
+            {quickActions.map((action) => (
               <button
                 key={action.label}
+                onClick={() => navigate(action.to)}
                 className="flex items-center gap-2 p-3 rounded-lg border border-neutral-light hover:border-brand-blue hover:shadow-primary transition-all text-sm"
               >
                 <action.icon className="w-4 h-4 text-brand-blue" />

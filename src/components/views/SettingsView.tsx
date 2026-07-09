@@ -1,8 +1,19 @@
 import { Card } from '../ui';
 import { useApp } from '../../store/useApp';
 
+function Toggle({ on, onClick }: { on: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative h-6 w-11 rounded-full transition-colors ${on ? 'bg-brand-blue' : 'bg-neutral-300 dark:bg-neutral-700'}`}
+    >
+      <span className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${on ? 'translate-x-5' : ''}`} />
+    </button>
+  );
+}
+
 export function SettingsView() {
-  const { theme, setTheme } = useApp();
+  const { theme, setTheme, notifications, toggleNotifications, sidebarCollapsed, toggleSidebar } = useApp();
   return (
     <div className="space-y-6">
       <div>
@@ -17,6 +28,25 @@ export function SettingsView() {
             <div className="flex gap-2">
               <button onClick={() => setTheme('light')} className={theme === 'light' ? 'btn-primary' : 'btn-secondary'}>Light</button>
               <button onClick={() => setTheme('dark')} className={theme === 'dark' ? 'btn-primary' : 'btn-secondary'}>Dark</button>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Preferences">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm font-medium text-slate-700 dark:text-slate-300">Notifications</div>
+                <div className="text-xs text-slate-500">Show in-app alerts</div>
+              </div>
+              <Toggle on={notifications} onClick={toggleNotifications} />
+            </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm font-medium text-slate-700 dark:text-slate-300">Collapse sidebar</div>
+                <div className="text-xs text-slate-500">Hide the navigation rail</div>
+              </div>
+              <Toggle on={sidebarCollapsed} onClick={toggleSidebar} />
             </div>
           </div>
         </Card>

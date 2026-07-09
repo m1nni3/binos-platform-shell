@@ -28,6 +28,8 @@ const nav = [
   { to: '/tenants', label: 'Tenant Centre', icon: Users, accent: 'accent-teal' },
   { to: '/leases', label: 'Lease Manager', icon: FileText, accent: 'brand-blue' },
   { to: '/financials', label: 'Financial Centre', icon: Wallet, accent: 'brand-blue' },
+  { to: '/petty-cash', label: 'Petty Cash', icon: Wallet, accent: 'brand-orange' },
+  { to: '/profit-loss', label: 'Profit & Loss', icon: BarChart3, accent: 'brand-purple' },
   { to: '/maintenance', label: 'Maintenance', icon: Wrench, accent: 'brand-orange' },
   { to: '/tasks', label: 'Tasks', icon: CheckSquare2, accent: 'accent-yellow' },
   { to: '/calendar', label: 'Calendar', icon: CalendarDays, accent: 'brand-blue' },

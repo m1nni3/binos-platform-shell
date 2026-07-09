@@ -8,6 +8,8 @@ import { TenantCentreView } from './components/views/TenantCentreView';
 import { LeaseManagerView } from './components/views/LeaseManagerView';
 import { FinancialCentreView } from './components/views/FinancialCentreView';
 import { MaintenanceCentreView } from './components/views/MaintenanceCentreView';
+import { PettyCashView } from './components/views/PettyCashView';
+import { ProfitLossView } from './components/views/ProfitLossView';
 import { TaskCentreView } from './components/views/TaskCentreView';
 import { CalendarView } from './components/views/CalendarView';
 import { DocumentsView } from './components/views/DocumentsView';
@@ -43,6 +45,8 @@ function AppLayout() {
               <Route path="/tenants" element={<TenantCentreView />} />
               <Route path="/leases" element={<LeaseManagerView />} />
               <Route path="/financials" element={<FinancialCentreView />} />
+              <Route path="/petty-cash" element={<PettyCashView />} />
+              <Route path="/profit-loss" element={<ProfitLossView />} />
               <Route path="/maintenance" element={<MaintenanceCentreView />} />
               <Route path="/tasks" element={<TaskCentreView />} />
               <Route path="/calendar" element={<CalendarView />} />

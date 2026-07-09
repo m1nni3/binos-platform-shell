@@ -74,3 +74,33 @@ export const auditLog = [
   { id: 'a2', action: 'Payment Created', entity: 'Transaction tx1', user: 'You', timestamp: '2026-07-08 08:45' },
   { id: 'a3', action: 'Document Uploaded', entity: 'Document d1', user: 'You', timestamp: '2026-07-07 16:20' },
 ];
+
+// Fallback data for the Petty Cash and Profit & Loss modules carried over from the
+// older Binos Prop portal (audit/verify). Used when the live API returns nothing.
+export const pettyCash = [
+  { id: 'pc1', type: 'income', amount: 1200, description: 'Tenant parking fee', property_id: 'p1', date: '2026-07-03', category: 'Fees' },
+  { id: 'pc2', type: 'expenses', amount: 340, description: 'Cleaning supplies', property_id: 'p1', date: '2026-07-05', category: 'Supplies' },
+  { id: 'pc3', type: 'expenses', amount: 890, description: 'Garden service', property_id: 'p2', date: '2026-07-06', category: 'Maintenance' },
+  { id: 'pc4', type: 'income', amount: 540, description: 'Laundry refund reclaim', property_id: 'p2', date: '2026-07-07', category: 'Fees' },
+];
+
+export const plBudgets = [
+  { id: 'plb1', property_id: 'p1', category: 'Rental Income', amount: 222000 },
+  { id: 'plb2', property_id: 'p1', category: 'Operating Expenses', amount: 96000 },
+  { id: 'plb3', property_id: 'p2', category: 'Rental Income', amount: 576000 },
+  { id: 'plb4', property_id: 'p2', category: 'Operating Expenses', amount: 210000 },
+];
+
+export const plMonthly = [
+  { id: 'plm1', property_id: 'p1', category: 'Net', month: '2026-05', year: 2026, income: 18500, expenses: 7800, amount: 10700 },
+  { id: 'plm2', property_id: 'p1', category: 'Net', month: '2026-06', year: 2026, income: 18500, expenses: 8200, amount: 10300 },
+  { id: 'plm3', property_id: 'p2', category: 'Net', month: '2026-05', year: 2026, income: 48000, expenses: 17500, amount: 30500 },
+  { id: 'plm4', property_id: 'p2', category: 'Net', month: '2026-06', year: 2026, income: 48000, expenses: 19000, amount: 29000 },
+];
+
+export const plEntries = [
+  { id: 'ple1', date: '2026-07-01', category: 'Income', description: 'July rent - Rosewood A1', amount: 18500, property_id: 'p1', deducted_expenses: 0 },
+  { id: 'ple2', date: '2026-07-02', category: 'Expense', description: 'Municipal rates', amount: 3400, property_id: 'p1', deducted_expenses: 1 },
+  { id: 'ple3', date: '2026-07-03', category: 'Income', description: 'July rent - Harbour 102', amount: 12500, property_id: 'p2', deducted_expenses: 0 },
+  { id: 'ple4', date: '2026-07-05', category: 'Expense', description: 'Geyser repair', amount: 4200, property_id: 'p1', deduced_expenses: 0, deducted_expenses: 1 },
+];

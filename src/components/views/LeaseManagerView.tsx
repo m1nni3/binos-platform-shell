@@ -1,14 +1,17 @@
 import { Badge } from '../ui/Badge';
 import { InfoCard } from '../ui/InfoCard';
-import { leases, tenants, units } from '../../data/mockData';
-
-const tenantName = (id?: string) => tenants.find((t) => t.id === id)?.name ?? id ?? '—';
-const unitLabel = (id?: string) => {
-  const u = units.find((x) => x.id === id);
-  return u ? `Unit ${u.unit}` : (id ?? '—');
-};
+import { useBinos, dataStore } from '../../data/useBinos';
+import { toast } from '../../lib/toast';
 
 export function LeaseManagerView() {
+  const { leases, tenants, units } = useBinos();
+
+  const tenantName = (id?: string) => tenants.find((t) => t.id === id)?.name ?? id ?? '—';
+  const unitLabel = (id?: string) => {
+    const u = units.find((x) => x.id === id);
+    return u ? `Unit ${u.unit}` : (id ?? '—');
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -22,7 +25,7 @@ export function LeaseManagerView() {
             key={l.id}
             icon="📄"
             title={tenantName(l.tenantId)}
-            badge={<Badge variant="success">{l.status}</Badge>}
+            badge={<Badge variant={l.status === 'Active' ? 'success' : 'warning'}>{l.status}</Badge>}
             fields={[
               { label: 'Lease', value: l.id.toUpperCase() },
               { label: 'Unit', value: unitLabel(l.unitId) },
@@ -30,6 +33,17 @@ export function LeaseManagerView() {
               { label: 'End', value: l.end },
               { label: 'Rent', value: `R${l.rent.toLocaleString()}` },
             ]}
+            footer={
+              <button
+                className="btn-secondary w-full"
+                onClick={() => {
+                  dataStore.update('units', l.unitId, { status: 'Vacant', occupant: '' });
+                  toast('Lease ended — unit marked vacant', 'info');
+                }}
+              >
+                End Lease
+              </button>
+            }
           />
         ))}
       </div>

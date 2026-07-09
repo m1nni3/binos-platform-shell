@@ -1,9 +1,10 @@
 import { Card } from '../ui';
 import { DataTable } from '../ui/DataTable';
 import { Badge } from '../ui/Badge';
-import { transactions } from '../../data/mockData';
+import { useBinos } from '../../data/useBinos';
 
 export function FinancialCentreView() {
+  const { transactions } = useBinos();
   return (
     <div className="space-y-6">
       <div>

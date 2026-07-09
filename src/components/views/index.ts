@@ -7,6 +7,8 @@ export { FinancialCentreView } from './FinancialCentreView';
 export { LeaseManagerView } from './LeaseManagerView';
 export { MaintenanceCentreView } from './MaintenanceCentreView';
 export { NotificationsView } from './NotificationsView';
+export { PettyCashView } from './PettyCashView';
+export { ProfitLossView } from './ProfitLossView';
 export { PropertyCentreView } from './PropertyCentreView';
 export { ReportsView } from './ReportsView';
 export { SettingsView } from './SettingsView';
